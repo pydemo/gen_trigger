@@ -1,0 +1,25 @@
+{
+
+"Center":{
+    "1:BasicPipelineList": {
+        "modulePath"	:"{uic.module_root}\\BasicListCtrl.py",
+        "className"		:"BasicListCtrl",
+        "objectAPI"		:"runTest",
+        "_apiParams"		:{},
+        "bestSize"		: [200, 150],
+        "closeButton"	: 0,
+        "captionVisible": 1,
+        "childFrame"	: {}
+    }
+},
+    
+    
+"Left":{
+
+},
+
+
+"Bottom":{
+
+}
+}
