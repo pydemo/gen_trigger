@@ -1,1 +1,0 @@
-python ui.py  -nop 2 -r DEV -p dir1\dir2 -pa bucket key   -la ui_layout

@@ -6,7 +6,7 @@ from os.path import isfile, isdir, join, basename
 from pprint import pprint as pp
 
 
-from cli_layer.common import TMP_DIR
+from cli_layer.common import TMP_DIR, PIPELINE_DIR
 
 e=sys.exit
 
@@ -27,7 +27,12 @@ class Config(object):
 
         self.root= self.getRoot()
         self.env=env
-
+        self.pipeline     = pipeline = kwargs['pipeline'].strip()
+        if '\\' in pipeline:
+            self.dotted_pipeline=pipeline.replace('\\','.')
+        else:
+            self.dotted_pipeline=pipeline.replace('/','.')
+        self.pipeline_dir = join(PIPELINE_DIR, self.dotted_pipeline.replace('.', os.sep))
         self.home=None
         self.lame_duck=0 # import limit        
     def getConfigName(self):

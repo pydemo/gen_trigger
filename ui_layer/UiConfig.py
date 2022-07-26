@@ -9,7 +9,7 @@ from pprint import pprint as pp
 
 from cli_layer.Config import *
 
-from cli_layer.common import LAYER_DIR, IN_DIR, CONFIG_DIR, OUT_DIR, PPL_DIR, CFG_LAYER_DIR
+from cli_layer.common import LAYER_DIR, IN_DIR, CONFIG_DIR, OUT_DIR, PPL_DIR, CFG_LAYER_DIR, PIPELINE_DIR
 
 from ui_layer.common import *
 from ui_layer.utils import dict2, exception
@@ -165,7 +165,6 @@ class UiConfig(Config):
             
         self.ui_path=cfg_loc
 
-        print(7777,cfg_loc)
         self.aui_dir = self.getCfgRoot()
         if not isdir(self.aui_dir): os.makedirs(self.aui_dir)
         self.aui_path = aui_path= join(self.getCfgRoot(), AUI_FN)
@@ -175,13 +174,12 @@ class UiConfig(Config):
                 fh.write(AUI_TMPL)
         self.validate().load()
         self.root=os.getcwd()
-        pp(kwargs)
-        self.pipeline     = pipeline = kwargs['pipeline'].strip()
-        pp(kwargs)
+
         self.params=params=kwargs['params']
-
+        #pp(kwargs)
+        #e()
         self.ui_layout=kwargs['ui_layout']
-
+        pipeline=self.pipeline
         self.module_root=join (self.root,UI_DIR,MODULE_DIR) 
         self.csv_root=join (IN_DIR,pipeline) 
         self.in_root=join (IN_DIR,pipeline) 
@@ -190,11 +188,7 @@ class UiConfig(Config):
         self.ppl_utils_root=join (PPL_DIR,pipeline,'include') 
         self.map_root=join (LAYER_DIR,CONFIG_DIR,'subconfig') 
         self.ppl_cfg_root=join (CFG_LAYER_DIR,pipeline) 
-        if '\\' in pipeline:
-            self.dotted_pipeline=pipeline.replace('\\','.')
-        else:
-            self.dotted_pipeline=pipeline.replace('/','.')
-        self.pipeline_dir = join(PIPELINE_DIR, self.dotted_pipeline.replace('.', os.sep))
+
     def getCsvFiles(self):
         out=[]
         for fid, fn in enumerate(os.listdir(self.csv_root)):

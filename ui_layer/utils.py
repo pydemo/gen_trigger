@@ -39,7 +39,8 @@ def load_pipeline_module(uic, mod_name):
     assert isdir(uic.pipeline_dir)
     dn = dirname(mod_name)
     fn = basename(mod_name)
-    #assert not dn, dn
+    #if not  uic.ui_layout:
+    #    uic.ui_layout ='default'
     mod_loc= join(uic.pipeline_dir,'module',uic.ui_layout, dn, f'{fn}.py')
     assert isfile(mod_loc), mod_loc
     return getattr(import_module(mod_loc),  fn)

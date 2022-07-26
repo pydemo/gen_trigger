@@ -16,6 +16,7 @@ IN_DIR      = 'in'
 OUT_DIR     = 'out'
 INCLUDE_DIR = 'include'
 CODE_DIR    = 'code_staging'
+PIPELINE_DIR='pipeline'
 SUCCESS = 0
 FAILURE = 1
 NODATA  = 3

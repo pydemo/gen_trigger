@@ -202,6 +202,7 @@ if is_nt:
                 kwargs['quiet']=False
                 kwargs['pipeline']='cr_stack'
                 import ui_layer.config.ui_config as ui_config
+                ui_config.init(**kwargs)
                 uic = ui_config.uic
                 #ui_config.init(**kwargs)
                 #apc = app_config.apc

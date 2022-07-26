@@ -28,7 +28,7 @@ TOOLS_DIR   = 'tools'
 UI_CFG_FN   = 'GH_ui.json'
 #INCLUDE_DIR = 'include'
 MODULE_DIR  = 'module'
-PIPELINE_DIR= 'pipeline'
+
 BUILD_DIR   = 'ui_build'
 CONFIG_DIR  = 'config'
 TEMPLATE_DIR= 'template'
@@ -84,7 +84,7 @@ def getEditor(apc=None):
         APP_ROOT=os.getcwd()
     else:
         APP_ROOT=apc.home
-    floc=join('..\\','Notepad++', 'notepad++.exe')
+    floc=join('..\\','..\\','Notepad++', 'notepad++.exe')
     assert isfile(floc), floc
     return floc
 

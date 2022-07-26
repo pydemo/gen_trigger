@@ -41,7 +41,7 @@ class MainFrame(wx.Frame):
     def __init__(self, parent=None):
         super(MainFrame, self).__init__(parent, title='K9 S3 PDF viewer', size=(600,900), pos=(800,300))
         vbox = wx.BoxSizer(wx.VERTICAL)
-        from LoaderPanel import LoaderPanel
+        from ui_layer.LoaderPanel import LoaderPanel
         panel=LoaderPanel(self)
         if 1:
             self.mgr = aui.AuiManager()
@@ -67,6 +67,7 @@ def main_ui(**kwargs):
         from ui_layer.common import UI_TMP_DIR, UI_CFG_FN
 
         import ui_layer.config.ui_config as ui_config 
+        e(11)
         ui_config.init(**kwargs)
         import ui_layer.config.ui_layout as ui_layout 
         ui_layout.init(**kwargs)
@@ -78,7 +79,7 @@ def main_ui(**kwargs):
 @click.option('-p',  '--pipeline',  default = None,	help = 'ETL pipeline name',	required=True )
 @click.option('-pa', '--params', 	nargs=int(nop) if nop else 0, help="Pipeline params", type=str, required=False)
 @click.option('-ld', '--lame_duck',	default = 0,  help="Import limit", type=int, required=False)
-@click.option('-la', '--ui_layout',	type=str, required=False, help="Open manual test ui.")
+@click.option('-la', '--ui_layout',	type=str, default='default', required=False, help="Open manual test ui.")
 @click.option('-d' , '--debug',     is_flag=True, help="Print debug output.")
 @click.option('-q' , '--quiet',     is_flag=True, help="Quet mode.")
 @click.option('-o' , '--open',      is_flag=True, help="Open pipeline file and exit.")
@@ -90,7 +91,7 @@ def main(**kwargs):
         apc = app_config.apc
         apc.validate().load() 
     if 1:
-        from ui_layer.app import main_ui
+        #from ui_layer.app import main_ui
         from ui_layer.common import UI_TMP_DIR, UI_CFG_FN
 
         import ui_layer.config.ui_config as ui_config 
