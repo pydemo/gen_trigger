@@ -55,7 +55,8 @@ def main_cli(**kwargs):
     #pp(kwargs)
     
     mod_file = get_module_loc(**kwargs)
-    
+    #print(7777777777, mod_file)
+    #e()
     if not apc.quiet:
         print('#'*80)
         log.info('Importing module: %s' % mod_file)
@@ -76,7 +77,7 @@ def main_cli(**kwargs):
 @click.option('-p',  '--pipeline',  default = None,	help = 'ETL pipeline name',	required=True )
 @click.option('-pa', '--params', 	nargs=int(nop) if nop else 0, help="Pipeline params", type=str, required=False)
 @click.option('-ld', '--lame_duck',	default = 0,  help="Import limit", type=int, required=False)
-@click.option('-ui', '--ui_layout',	type=str, required=False, help="Open manual test ui.")
+@click.option('-la', '--cli_layout', default='default',	 type=str, required=False, help="CLI layout.")
 @click.option('-d' , '--debug',     is_flag=True, help="Print debug output.")
 @click.option('-h' , '--help',      is_flag=True, help="Show usage.")
 @click.option('-y' , '--yes',       is_flag=True, help="Force overwrite.")
@@ -92,31 +93,13 @@ def main(**kwargs):
         app_config.init(**kwargs)
         apc = app_config.apc
         apc.validate().load()
-
-        
-    
     if kwargs['open']:
         from ui_layer.common import open_editor
         from cli_layer.utils import get_module_loc
         ppl = kwargs['pipeline']
         mfn= get_module_loc(**kwargs)
+        
         open_editor(mfn)
-        
-        e(0)
-    if kwargs.get('ui_layout'):
-        #pp(kwargs)
-        #e()
-        #manual test only
-        from ui_layer.app import main_ui
-        from ui_layer.common import UI_TMP_DIR, UI_CFG_FN
-
-        import ui_layer.config.ui_config as ui_config 
-        ui_config.init(**kwargs)
-        import ui_layer.config.ui_layout as ui_layout 
-        ui_layout.init(**kwargs)
-        
-        
-        main_ui(**kwargs)
     else:
         #headless
         main_cli(**kwargs)

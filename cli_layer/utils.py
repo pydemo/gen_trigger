@@ -200,7 +200,8 @@ if is_nt:
             except:
 
                 kwargs['quiet']=False
-                kwargs['pipeline']='cr_stack'
+                if not kwargs.get('ui_layout') :
+                    kwargs['ui_layout'] = 'default'
                 import ui_layer.config.ui_config as ui_config
                 ui_config.init(**kwargs)
                 uic = ui_config.uic

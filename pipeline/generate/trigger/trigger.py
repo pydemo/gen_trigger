@@ -113,10 +113,7 @@ def generate_trigger(**kwargs):
         
         with open(out_fn, 'w') as fh:
             fh.write(tt)
-        
-        
-        
-        
+
 if __name__=="__main__":
     kwargs={} #TODO
     generate_trigger(**kwargs)
