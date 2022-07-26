@@ -72,26 +72,28 @@ def generate_trigger(**kwargs):
         con=get_connection()
         #TODO
         schema_name = 'public'
-        table_name  = f'{schema_name}.test_delete'
+        table_name  = f'test_delete'
         q=f'''SELECT column_name
       FROM information_schema.columns
      WHERE table_schema = '{schema_name}'
        AND table_name   = '{table_name}'
       order by ordinal_position;'''
         pp(q)
+        table_name  = f'{schema_name}.{table_name}'
         data= exec_query(con,q)
 
         audit_table = f'{schema_name}.sdl_audit'
         if_list=[]
         for d in data:
             col_name, =d
-            print(col_name)
+
             if_list.append(f'''
+        --{col_name}
         if(OLD.{col_name} is not NULL) then 
             INSERT INTO {audit_table} SELECT event_id, '{table_name}', OLD.row_id, 'protocol_id', OLD.{col_name}, null, old.modified_by, now();
         end if;''')
         if_list = ''.join(if_list)
-        pp(if_list)
+        print(if_list)
     if 1:
         print(apc.pipeline_dir)
         tmpl_dir = join(apc.pipeline_dir,'template')
@@ -100,13 +102,18 @@ def generate_trigger(**kwargs):
         assert isfile(tmpl_fn),  tmpl_fn
         with open(tmpl_fn, 'r') as fh:
             tmpl = fh.read()
-        pp(tmpl)
+        #pp(tmpl)
         
         trigger_name = f'{schema_name}.delete_trigger'
         func_name    = f'{schema_name}.delete_func'
         sequence_name= f'{schema_name}.trigger_seq'
         tt=eval(f"f'''{tmpl}'''")
         pp(tt)
+        out_fn = 'create_delete_trigger.sql'
+        
+        with open(out_fn, 'w') as fh:
+            fh.write(tt)
+        
         
         
         
