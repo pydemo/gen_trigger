@@ -9,16 +9,20 @@ from cli_layer.utils import timer, get_err
 from pathlib import Path
 from cli_layer.common import *
 from cli_layer.fmt import  pfmt, pfmtv, pfmtd, psql
-from pipeline.generate.trigger.include.utils import usage
+#from include.utils import usage
+from cli_layer.utils import load_pipeline_module
+import cli_layer.config.app_config as app_config
+apc = app_config.apc
+
+utils        = load_pipeline_module(apc, join('include','utils'))
+
 #import cli_layer.pipeline.generate.utils as ppl_utils
 from cli_layer.pipeline.utils import get_params
 import psycopg2
 
-
 e=sys.exit
 
 log = logging.getLogger()
-
 
 import cli_layer.config.app_config as app_config
 apc = app_config.apc
@@ -63,7 +67,7 @@ def generate_trigger(**kwargs):
     Num of params: 2
     Usage: python cli.py -nop 1 -r DEV -p generate\trigger -pa config.yaml DEV
     """
-    cp, params=usage(**kwargs)
+    cp, params=utils.usage(**kwargs)
     limit	= kwargs['lame_duck']
     config,env = params
     
@@ -95,8 +99,8 @@ def generate_trigger(**kwargs):
         if_list = ''.join(if_list)
         print(if_list)
     if 1:
-        print(apc.pipeline_dir)
-        tmpl_dir = join(apc.pipeline_dir,'template')
+        
+        tmpl_dir = join(apc.app_dir,'template')
         assert isdir(tmpl_dir),  tmpl_dir
         tmpl_fn = join(tmpl_dir,'delete_trigger.sql')
         assert isfile(tmpl_fn),  tmpl_fn

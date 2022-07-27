@@ -32,6 +32,8 @@ class Config(object):
             self.dotted_pipeline=pipeline.replace('\\','.')
         else:
             self.dotted_pipeline=pipeline.replace('/','.')
+        
+        
         self.pipeline_dir = join(PIPELINE_DIR, self.dotted_pipeline.replace('.', os.sep))
         self.home=None
         self.lame_duck=0 # import limit        

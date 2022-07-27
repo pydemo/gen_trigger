@@ -1,30 +1,24 @@
 import boto3
 import codecs, json
 import os, sys, csv, time, zipfile, logging
+from os.path import join, basename, isfile, isdir, dirname
+
+
+import importlib
+
 e=sys.exit
 from os.path import isfile, split, join, basename, isdir
-import  importlib, subprocess
+import   subprocess
 from collections import OrderedDict
 from pprint import pprint as pp
-
 from pathlib import Path
 from cli_layer.fmt import pfmtd
-
-
 from cli_layer.common import *
-
-
 from collections import defaultdict, UserDict
-
-
 import cli_layer.config.app_config as app_config 
 
-
 log=logging.getLogger()
-
-
 import getpass
-
 
 import traceback
 try:
@@ -32,6 +26,18 @@ try:
 except ImportError:
     import io as cStringIO
 
+def load_pipeline_module(apc, mod_name):
+    assert isdir(apc.app_dir)
+    dn = dirname(mod_name)
+    fn = basename(mod_name)
+    #if not  apc.ui_layout:
+    #    apc.ui_layout ='default'
+    mod_loc= join(apc.app_dir, dn, f'{fn}.py')
+    assert isfile(mod_loc), mod_loc
+    return import_module(mod_loc)
+    #return getattr(import_module(mod_loc),  fn)
+    
+    
 def get_params(**kwargs):
     params = kwargs['params']
     assert params, params
@@ -409,6 +415,9 @@ def os_path(path):
         return path.replace('\\',os.sep)
         
 def get_module_loc(**kwargs):
+    pp(kwargs)
+    cli_layout = kwargs.get('cli_layout' )
+    assert cli_layout, 'Please, define cli_layout'
     
     pipeline	= os_path(kwargs['pipeline'])
     #if not apc.quiet: print(pipeline)
@@ -416,7 +425,7 @@ def get_module_loc(**kwargs):
     mod_fn = '%s.py' % ppl_name
     mod_dir = join(PPL_DIR,pipeline)
     assert isdir(mod_dir), mod_dir
-    mod_loc = join (mod_dir, mod_fn)
+    mod_loc = join (mod_dir, cli_layout, mod_fn)
     assert isfile(mod_loc), mod_loc
     mod_file = Path(mod_loc).resolve()
     

@@ -25,6 +25,8 @@ class AppConfig(Config):
         if not isfile(cfg_loc):
             self.initCfgFile(path=cfg_loc)
         self.kwargs=kwargs
+        self.cli_layout=kwargs.get('cli_layout')
+        self.app_dir = join(self.pipeline_dir, self.cli_layout)
     def getConn(self):
         env=self.env
         cfg=self.cfg
